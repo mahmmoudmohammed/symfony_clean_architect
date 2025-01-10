@@ -1,0 +1,40 @@
+version: "3.9"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: symfony_clean_architect
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "9001:9000"
+    networks:
+      - symfony
+
+  nginx:
+    image: nginx:1.23-alpine
+    container_name: symfony_nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./docker/nginx:/etc/nginx/conf.d
+      - .:/var/www/html
+    networks:
+      - symfony
+
+  db:
+    image: mysql:8.0
+    container_name: symfony_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: symfony
+    ports:
+      - "3307:3306"
+    networks:
+      - symfony
+
+networks:
+  symfony:
+    driver: bridge
