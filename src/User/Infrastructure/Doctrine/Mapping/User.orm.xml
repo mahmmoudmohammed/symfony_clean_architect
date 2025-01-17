@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
+>
+
+    <entity name="App\User\Domain\Model\User" table="users">
+        <id name="id" type="integer" column="id">
+            <generator/>
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </id>
+        <one-to-one field="person" target-entity="Person" inversed-by="user">
+            <join-column name="person_id"/>
+            <cascade>
+                <cascade-persist />
+            </cascade>
+        </one-to-one>
+        <field name="type" type="smallint">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+        <field name="email" length="100"  />
+        <field name="username" length="100"/>
+        <field name="password" length="255"/>
+        <field name="passwordStatus" column="password_status" type="smallint">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+        <field name="activeStatus" column="active_status" type="smallint">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+        <field name="passwordLastChanged" column="password_last_changed" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+        <field name="createdAt" column="created_at" type="datetime_immutable" />
+        <field name="createdBy" column="created_by" type="integer">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+        <field name="updatedAt" column="updated_at" type="datetime_immutable"  nullable="true"/>
+        <field name="updatedBy" column="updated_by" type="integer"  nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+        <field name="loginAt" column="login_at" type="datetime_immutable" nullable="true" />
+        <field name="isLogged" column="is_logged" type="boolean" />
+        <field name="online" column="online" type="boolean" />
+        <field name="registrationAt" column="registration_at" type="datetime_immutable"  nullable="true"/>
+
+        <indexes>
+            <index name="type" columns="type"/>
+            <index name="email" columns="email"/>
+            <index name="username" columns="username"/>
+        </indexes>
+    </entity>
+</doctrine-mapping>
