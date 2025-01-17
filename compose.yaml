@@ -34,6 +34,11 @@ services:
       - "3307:3306"
     networks:
       - symfony
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
 
 networks:
   symfony:
