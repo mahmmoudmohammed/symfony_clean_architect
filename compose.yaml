@@ -40,6 +40,18 @@ services:
     ports:
       - 8080:8080
 
+  mongodb:
+    container_name: symfony_mongodb
+    build:
+      context: .
+      dockerfile: docker/mongodb/Dockerfile
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: 1
+    ports:
+      - "${MONGODB_PORT-27011}:27017"
+    networks:
+      - symfony
 networks:
   symfony:
     driver: bridge
