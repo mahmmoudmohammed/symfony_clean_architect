@@ -11,6 +11,8 @@ class User
 
     private ?string $email = null;
 
+    private ?string $name = null;
+
     private ?string $username = null;
 
     private ?string $password = null;
@@ -74,6 +76,17 @@ class User
         $this->email = $email;
 
         return $this;
+    }
+
+    public function setName(?string $name): User
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
     }
 
     public function getUsername(): ?string
@@ -184,10 +197,6 @@ class User
         return $this;
     }
 
-    public function getAgree(): ?bool
-    {
-        return $this->agree;
-    }
     public function getDefaultLang(): ?string
     {
         return $this->defaultLang;
@@ -235,6 +244,7 @@ class User
 
         return $this;
     }
+
     public function getLoginVia(): ?int
     {
         return $this->loginVia;
@@ -258,6 +268,7 @@ class User
 
         return $this;
     }
+
     public function getPerson(): ?Person
     {
         return $this->person;
@@ -280,15 +291,14 @@ class User
 
     public function toArray(): array
     {
-        $profileTranslation = $this->getPerson()->getTranslations();
-        $nameInLang = [];
-        foreach ($profileTranslation as $profileInLang) {
-            $nameInLang[$profileInLang->getContentLang()] = $profileInLang->getName();
-        }
-
+        $profile = $this->getPerson();
         return [
             'id' => $this->getId(),
-            'name' => $nameInLang,
+            'name' => $this->getName(),
+            'profileImage' => $profile->getProfileImage(),
+            'phone' => $profile->getPhone(),
+            'countryCode' => $profile->getCountryCode(),
+            'gender' => $profile->getGender(),
         ];
     }
 }
