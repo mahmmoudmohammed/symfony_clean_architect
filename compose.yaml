@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   app:
     build:
@@ -17,7 +16,7 @@ services:
     image: nginx:1.23-alpine
     container_name: symfony_nginx
     ports:
-      - "8080:80"
+      - "8090:8090"
     volumes:
       - ./docker/nginx:/etc/nginx/conf.d
       - .:/var/www/html
@@ -38,7 +37,7 @@ services:
     image: adminer
     restart: always
     ports:
-      - 8080:8080
+      - "8080:8080"
 
   mongodb:
     container_name: symfony_mongodb
