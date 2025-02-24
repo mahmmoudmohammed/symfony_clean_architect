@@ -30,15 +30,15 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
             $field  = 'get'.ucfirst($searchableField);
             $value = $dto->{$field}();
             if (is_string($value)) {
-                $expr->andX($expr->like("pt.$searchableField", ":$searchableField"));
+                $expr->like("u.$searchableField", ":$searchableField");
             }
             if (is_integer($value)) {
-                $expr->andX($expr->eq("pt.$searchableField", ":$searchableField"));
+                $expr->eq("u.$searchableField", ":$searchableField");
             }
+            $qb->andWhere($expr);
             $qb->setParameter(":$searchableField", $value);
         }
-        $qb->where($expr);
-        return $qb->getQuery()->getArrayResult();
+        return $qb->getQuery()->getResult();
     }
 
 }

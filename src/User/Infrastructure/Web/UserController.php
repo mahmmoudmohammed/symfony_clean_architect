@@ -13,13 +13,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
-#[Route('users/')]
+#[Route('/users')]
 class UserController extends AbstractController
 {
     public function __construct(
-        private readonly Serializer $serializer,
+        private readonly SerializerInterface $serializer,
     )
     {
     }

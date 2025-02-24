@@ -3,6 +3,7 @@
 namespace App\User\Infrastructure\Presenter;
 
 use App\Core\Infrastructure\Presenter\BasePresenter;
+use App\User\Domain\Model\User;
 
 class UserPresenter extends BasePresenter
 {
@@ -16,6 +17,21 @@ class UserPresenter extends BasePresenter
     private ?int $gender;
     private ?\DateTimeImmutable $createdAt;
     private ?\DateTimeImmutable $updatedAt;
+
+    public function createFromUser(User $user): UserPresenter
+    {
+        $this->id = $user->getId();
+        $this->email = $user->getEmail();
+        $this->name = $user->getName();
+        $this->username = $user->getUsername();
+        $this->createdAt = $user->getCreatedAt();
+        $this->updatedAt = $user->getUpdatedAt();
+        $this->gender = $user->getPerson()->getGender();
+        $this->profileImage = $user->getPerson()->getProfileImage();
+        $this->phone = $user->getPerson()->getPhone();
+        $this->countryCode = $user->getPerson()->getCountryCode();
+        return $this;
+    }
 
     public function getId(): ?int
     {
