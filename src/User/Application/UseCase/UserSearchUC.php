@@ -6,9 +6,11 @@ use App\Core\Application\UseCase\Contract\UseCaseWithInputInterface;
 use App\Core\Application\UseCase\Contract\UseCaseWithPresenterInterface;
 use App\Core\DTO\Contract\DTOInterface;
 use App\Core\Infrastructure\Presenter\Contract\PresenterInterface;
+use App\User\Domain\Model\User;
 use App\User\DTO\UserSearchDto;
 use App\User\Infrastructure\Presenter\UserPresenter;
 use App\User\Infrastructure\Repository\Contract\UserRepositoryInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class UserSearchUC implements UseCaseWithInputInterface, UseCaseWithPresenterInterface
 {
@@ -21,8 +23,12 @@ class UserSearchUC implements UseCaseWithInputInterface, UseCaseWithPresenterInt
     }
     public function execute(): void
     {
-        $result = $this->repository->search($this->dtoInput);
-        $this->presenter->setId($result->getId());
+        $users = $this->repository->search($this->dtoInput);
+        $results = new ArrayCollection();
+        foreach ($users as $index => $user) {
+            assert($user instanceof User);
+            $results->add($this->presenter->createFromUser($user));
+        }
     }
 
     public function setInputDto(DTOInterface $inputDto): static
